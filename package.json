@@ -1,0 +1,25 @@
+{
+  "name": "restful-nodejs-shop",
+  "version": "1.0.0",
+  "description": "RESTful Node.js ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "node",
+    "restful",
+    "api"
+  ],
+  "author": "Richie Permana",
+  "license": "Apache License 2.0",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1"
+  }
+}
