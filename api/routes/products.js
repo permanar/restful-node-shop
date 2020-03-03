@@ -1,17 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const router = express.Router();
 const Product = require("../models/product");
+
+const router = express.Router();
 
 // GET All Products
 router.get("/", (req, res, next) => {
-  res.status(200).json({
-    message: "yeay"
-  });
+  Product.find()
+    .exec()
+    .then(doc => {
+      res.status(200).json(doc);
+    })
+    .catch(err => console.log(err));
 });
 
-// TODO: GET Indidually
+// GET Indidually
 router.get("/:id", (req, res, next) => {
   const id = req.params.id;
   Product.findById(id)
@@ -24,7 +28,7 @@ router.get("/:id", (req, res, next) => {
         res.status(404).json({
           code: 404,
           error: {
-            message: "ID is not valid."
+            message: "Product is not exist."
           }
         });
       }
@@ -63,14 +67,42 @@ router.post("/", (req, res, next) => {
     .catch(err => console.log(err));
 });
 
-// TODO: PATCH
+// PATCH
 router.patch("/:id", (req, res, next) => {
   const id = req.params.id;
+  const updateOps = {};
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value;
+  }
+
+  Product.update({ _id: id }, { $set: updateOps })
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
 });
 
-// TODO: DELETE
+// DELETE
 router.delete("/:id", (req, res, next) => {
   const id = req.params.id;
+  Product.remove({ _id: id })
+    .exec()
+    .then(result => {
+      res.status(200).json({ result });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
 });
 
 module.exports = router;
