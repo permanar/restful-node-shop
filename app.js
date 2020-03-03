@@ -55,7 +55,7 @@ app.use((req, res, next) => {
   next(error); // Passing error as an argument and going next() handler
 });
 app.use((err, req, res, next) => {
-  res.setHeader("Content-Type", "text/plain");
+  // res.setHeader("Content-Type", "text/plain");
   res.status(err.status || 500);
   res.json({
     error: {
